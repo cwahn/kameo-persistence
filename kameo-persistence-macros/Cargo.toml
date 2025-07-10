@@ -2,7 +2,10 @@
 name = "kameo-persistence-macros"
 version = "0.1.0"
 edition = "2024"
-
+authors = ["lighthouse <cwahn0904@gmail.com>"]
+description = "Macros for persistence add-on for Kameo, a Rust actor framework"
+license = "MIT"
+repository = "https://github.com/cwahn/kameo-persistence.git"
 
 [lib]
 proc-macro = true
