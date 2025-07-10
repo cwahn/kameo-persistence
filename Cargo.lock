@@ -457,7 +457,7 @@ dependencies = [
  "anyhow",
  "futures",
  "kameo",
- "kameo-persistence-macros",
+ "kameo-persistence-macros 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "postcard",
  "serde",
  "tokio",
@@ -470,6 +470,19 @@ dependencies = [
 [[package]]
 name = "kameo-persistence-macros"
 version = "0.1.0"
+dependencies = [
+ "heck",
+ "proc-macro-error",
+ "proc-macro2",
+ "quote",
+ "syn 2.0.104",
+]
+
+[[package]]
+name = "kameo-persistence-macros"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7ecbda24c4a1627cd80330aebe0c2c4a9d5f9693cca43005cb1ba42e6c6d6793"
 dependencies = [
  "heck",
  "proc-macro-error",
