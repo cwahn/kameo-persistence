@@ -7,7 +7,7 @@ use kameo::prelude::*;
 use serde::{Deserialize, Serialize};
 use url::Url;
 
-use persistent_kameo::PersistentActor;
+use kameo_persistence::PersistentActor;
 
 #[derive(Debug, Clone, PersistentActor)]
 pub struct ManagerActor {
@@ -29,7 +29,7 @@ impl From<&ManagerActor> for ManagerActorArgs {
                 .sub_actors
                 .iter()
                 .filter_map(|(name, actor_ref)| {
-                    PersistentActor::persistency_key(actor_ref).map(|url| (name.clone(), url))
+                    PersistentActor::persistence_key(actor_ref).map(|url| (name.clone(), url))
                 })
                 .collect(),
         }
@@ -83,3 +83,5 @@ impl From<&SubActor> for SubActor {
         actor.clone()
     }
 }
+
+fn main() {}

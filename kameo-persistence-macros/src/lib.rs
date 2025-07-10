@@ -1,7 +1,7 @@
 use heck::ToShoutySnakeCase;
 use proc_macro::TokenStream;
 use quote::quote;
-use syn::{DeriveInput, parse_macro_input};
+use syn::{parse_macro_input, DeriveInput};
 
 #[proc_macro_derive(PersistentActor, attributes(snapshot))]
 pub fn derive_persistent_actor(input: TokenStream) -> TokenStream {
@@ -17,34 +17,34 @@ pub fn derive_persistent_actor(input: TokenStream) -> TokenStream {
 
     let expanded = quote! {
 
-        static #regiestry_ident: ::std::sync::LazyLock<::std::sync::RwLock<::persistent_kameo::BiHashMap<::url::Url, ::kameo::prelude::WeakActorRef<#name>>>> =
-            ::std::sync::LazyLock::new(|| ::std::sync::RwLock::new(::persistent_kameo::BiHashMap::new()));
+        static #regiestry_ident: ::std::sync::LazyLock<::std::sync::RwLock<::kameo_persistence::BiHashMap<::url::Url, ::kameo::prelude::WeakActorRef<#name>>>> =
+            ::std::sync::LazyLock::new(|| ::std::sync::RwLock::new(::kameo_persistence::BiHashMap::new()));
 
 
-        impl ::persistent_kameo::PersistentActor for #name {
+        impl ::kameo_persistence::PersistentActor for #name {
             type Snapshot = #snapshot_type;
 
 
-            fn register_persistent(persistency_key: ::url::Url, actor_ref: &::kameo::prelude::ActorRef<Self>) -> ::anyhow::Result<()> {
+            fn register_persistent(persistence_key: ::url::Url, actor_ref: &::kameo::prelude::ActorRef<Self>) -> ::anyhow::Result<()> {
                 let Ok(mut registry) = #regiestry_ident.write() else {
                     ::anyhow::bail!("Failed to acquire write lock on registry");
                 };
-                if let Some(old_pair) = registry.insert(persistency_key, actor_ref.downgrade()) {
+                if let Some(old_pair) = registry.insert(persistence_key, actor_ref.downgrade()) {
                     #[cfg(feature = "tracing")]
                     ::tracing::warn!("Existing persistent actor reference for {old_pair:?} is replaced");
                 }
                 Ok(())
             }
 
-            fn persistency_key(actor_ref: &::kameo::prelude::ActorRef<Self>) -> Option<::url::Url> {
+            fn persistence_key(actor_ref: &::kameo::prelude::ActorRef<Self>) -> Option<::url::Url> {
                 let registry = #regiestry_ident.read().unwrap();
                 registry.get_left(&actor_ref.downgrade()).cloned()
             }
 
-            fn lookup_persistent(persistency_key: &::url::Url) -> Option<::kameo::prelude::ActorRef<Self>> {
+            fn lookup_persistent(persistence_key: &::url::Url) -> Option<::kameo::prelude::ActorRef<Self>> {
                 let registry = #regiestry_ident.read().unwrap();
                 registry
-                    .get_right(persistency_key)
+                    .get_right(persistence_key)
                     .and_then(|weak_ref| weak_ref.upgrade())
             }
         }

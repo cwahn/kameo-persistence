@@ -1,0 +1,30 @@
+[package]
+name = "kameo-persistence"
+version = "0.1.0"
+edition = "2024"
+authors = ["lighthouse <cwahn0904@gmail.com>"]
+description = "persistence add-on for Kameo, a Rust actor framework"
+license = "MIT"
+repository = "https://github.com/cwahn/kameo-persistence.git"
+
+
+[dependencies]
+anyhow = "1.0.98"
+kameo = "0.17.2"
+postcard = { version = "1.1.2", features = ["use-std"] }
+serde = { version = "1.0.219", features = ["derive"] }
+url = { version = "2.5.4", features = ["serde"] }
+kameo-persistence-macros = { path = "../kameo-persistence-macros" }
+
+tracing = { version = "0.1.41", optional = true }
+
+[dev-dependencies]
+trybuild = "1.0"
+futures = "0.3.30"
+uuid = { version = "1.17.0", features = ["v4"] }
+tracing = "0.1.41"
+tokio = { version = "1.46.1", features = ["macros", "rt-multi-thread"] }
+
+[features]
+default = []
+tracing = ["dep:tracing"]

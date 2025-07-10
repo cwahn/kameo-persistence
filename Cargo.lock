@@ -451,6 +451,34 @@ dependencies = [
 ]
 
 [[package]]
+name = "kameo-persistence"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "futures",
+ "kameo",
+ "kameo-persistence-macros",
+ "postcard",
+ "serde",
+ "tokio",
+ "tracing",
+ "trybuild",
+ "url",
+ "uuid",
+]
+
+[[package]]
+name = "kameo-persistence-macros"
+version = "0.1.0"
+dependencies = [
+ "heck",
+ "proc-macro-error",
+ "proc-macro2",
+ "quote",
+ "syn 2.0.104",
+]
+
+[[package]]
 name = "kameo_macros"
 version = "0.17.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -537,32 +565,6 @@ name = "percent-encoding"
 version = "2.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e3148f5046208a5d56bcfc03053e3ca6334e51da8dfb19b6cdc8b306fae3283e"
-
-[[package]]
-name = "persistent-kameo"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "futures",
- "kameo",
- "persistent-kameo-macros",
- "postcard",
- "serde",
- "tracing",
- "trybuild",
- "url",
-]
-
-[[package]]
-name = "persistent-kameo-macros"
-version = "0.1.0"
-dependencies = [
- "heck",
- "proc-macro-error",
- "proc-macro2",
- "quote",
- "syn 2.0.104",
-]
 
 [[package]]
 name = "pin-project-lite"
